@@ -1,0 +1,37 @@
+Presentation draft:
+
+* Functional roots of Javascript
+  - "Lisp in C clothing", influenced by Scheme (dialect of Lisp)
+  - Limitations: no tail call optimization
+
+* Typescript re-invigorates the functional roots of JavaScript
+  - Functional programming in 1990s: functions are "first-class citizens"
+  - Functional programming in 2020s: typing theory advances, OOP and FP can be combined
+  - Sorry Dart, adding types should not mean giving up the functional nature of JavaScript, wrong direction chosen?
+
+* Typeclasses: why they are needed, and how to define one in Typescript
+  - Monoid example
+  - Why all this theory and abstractions: example of combineAll
+
+* Not quite a functional language however
+  - Again no tail call optimization
+  - Withot "return" statement function returns "undefined" :(
+  - Lots of braces and syntactic noise (C legacy - imperative language)
+  - Missing higher kinded types: i.e. "Promise" is not considered to be a separate type ("type constructor") in addition to "Promise<T>":
+    more boiler-plate when trying to specify types which can be parameterized by other types
+  - No way to define useful automatic conversions between types and related syntactic sugar (ala Haskell or Scala 3): more boiler-plate
+  - Some advanced type constructs, such as union types, but no type lambdas, for example
+  - Coming more from the practical perspective: "how to add typings to JavaScript in a backward-compatible manner"
+  - However, still includes many useful features and can be used in a functional manner
+
+* The most useful typeclass: Monad
+  - More extended example of a Monad for Option and how HKT might be defined in Typescript
+  - How to define a HKT and a typeclass requiring HKT definition for an existing type: example of Promise
+  - More advanced monad and the example of its usage: Reader
+
+* fp-ts as a library defining useful typeclasses and promoting FP in Typescript
+
+* Practical monads: you might be already using them and no typeclasses might be needed
+  - Generator monad and Maybe monad from gen.js
+
+* Q & A
