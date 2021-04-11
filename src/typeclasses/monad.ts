@@ -44,11 +44,9 @@ const promiseMonad: Monad<Promise_> = new PromiseMonad();
 
 // The method "flatMap" already exists on an Array. adding it here again via a Functor just for the sake of illustration
 class ArrayMonad extends Monad<Array_> {
-
   pure<A>(a: A): HKTArray<A> {
     return [ a ] as HKTArray<A>;
   }
-
   flatMap<A, B>(fa: HKTArray<A>, f: (v: A) => HKTArray<B>): HKTArray<B> {
     return fa.flatMap(f) as HKTArray<B>;
   }
