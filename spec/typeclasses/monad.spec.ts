@@ -1,29 +1,15 @@
 import { expect } from 'chai';
-import * as deepEql from 'deep-eql';
 
 import { HKT } from '../../src/typeclasses/hkt';
 import { Monad, MonadInstances, ContextDependent_, ContextDependent } from '../../src/typeclasses/monad';
 import { Option } from '../../src/typeclasses/types/option';
+import { HKTEquality, deepEquality } from './util/hkt.equality';
 
 describe('monad', () => {
 
   describe('monad laws', () => {
 
-    interface HKTEquality<M> {
-      equal<T>(x: HKT<M, T>, y: HKT<M, T>): boolean
-    }
-  
-    class DefaultEquality<M> implements HKTEquality<M> {
-      equal<T>(x: HKT<M, T>, y: HKT<M, T>): boolean {
-        return deepEql(x, y);
-      }
-    }
-
-    function defaultEquality<M>(): HKTEquality<M> {
-      return new DefaultEquality<M>();
-    }
-
-    function checkMonadLaws<M, A, B, C>(m: Monad<M>, a: A, fa: HKT<M, A>, g: (v: A) => HKT<M, B>, h: (v: B) => HKT<M, C>, eq: HKTEquality<M> = defaultEquality<M>()): void {
+    function checkMonadLaws<M, A, B, C>(m: Monad<M>, a: A, fa: HKT<M, A>, g: (v: A) => HKT<M, B>, h: (v: B) => HKT<M, C>, eq: HKTEquality<M> = deepEquality<M>()): void {
       it(`${m.constructor.name} should satisfy monad laws`, async () => {
         await checkAssociativityLaw(m, fa, g, h, eq);
         await checkIdentityLaw(m, a, fa, g, eq);
@@ -61,20 +47,20 @@ describe('monad', () => {
 
     type StringDependent_ = ContextDependent_<string>
     type StringDependent<T> = ContextDependent<string, T>
-    const stringDependentEquality = new (class StringDependentEquality implements HKTEquality<StringDependent_> {
-      static testString = "abc"
+    class StringDependentEquality implements HKTEquality<StringDependent_> {
+      private readonly comparisonPoint = "abc"
       equal<T>(x: StringDependent<T>, y: StringDependent<T>): boolean {
         // Proving function equality is difficult: assuming that two functions are "equal" if their values are equal at some point: not ideal
-        return deepEql(x(StringDependentEquality.testString), y(StringDependentEquality.testString));
+        return x(this.comparisonPoint) == y(this.comparisonPoint);
       }
-    })();
+    };
     checkMonadLaws(
       MonadInstances.readerMonad<string>(),
       2,
       ((s: string) => 2) as StringDependent<number>,
       (n: number) => ((s: string) => Math.abs(n)) as StringDependent<number>,
       (n: number) => ((s: string) => n > s.length) as StringDependent<boolean>,
-      stringDependentEquality
+      new StringDependentEquality()
     );
   });
 
