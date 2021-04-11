@@ -1,6 +1,7 @@
 import { Functor } from './functor';
 import { Option_, Option, none } from './types/option';
 import { Promise_, HKTPromise } from './types/promise';
+import { Array_, HKTArray } from './types/array';
 import { HKT } from './hkt';
 
 // Monad is also a Functor as it is possible to implement "map" through "pure" and "flatMap"
@@ -29,6 +30,7 @@ class OptionMonad extends Monad<Option_> {
 
 const optionMonad: Monad<Option_> = new OptionMonad();
 
+// Again it might be much more convenient to add map directly to Promise, however, for the illustration's sake defining a separate Functor typeclass
 class PromiseMonad extends Monad<Promise_> {
   pure<A>(a: A): HKTPromise<A> {
     return Promise.resolve(a) as HKTPromise<A>;
@@ -40,7 +42,19 @@ class PromiseMonad extends Monad<Promise_> {
 
 const promiseMonad: Monad<Promise_> = new PromiseMonad();
 
-//TODO: Array Monad
+// The method "flatMap" already exists on an Array. adding it here again via a Functor just for the sake of illustration
+class ArrayMonad extends Monad<Array_> {
+
+  pure<A>(a: A): HKTArray<A> {
+    return [ a ] as HKTArray<A>;
+  }
+
+  flatMap<A, B>(fa: HKTArray<A>, f: (v: A) => HKTArray<B>): HKTArray<B> {
+    return fa.flatMap(f) as HKTArray<B>;
+  }
+}
+
+const arrayMonad: Monad<Array_> = new ArrayMonad();
 
 // Informally "ContextDependent<Ctx, unknown>" ~ "Ctx => unknown", i.e. "type constructor" for ContextDependent
 export type ContextDependent_<Ctx> = () => Ctx
@@ -72,5 +86,6 @@ function readerMonad<Ctx>(): Monad<ContextDependent_<Ctx>> {
 export const MonadInstances = {
   optionMonad,
   promiseMonad,
+  arrayMonad,
   readerMonad,
 };

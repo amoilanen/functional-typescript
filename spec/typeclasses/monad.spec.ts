@@ -4,6 +4,7 @@ import { HKT } from '../../src/typeclasses/hkt';
 import { Monad, MonadInstances, ContextDependent_, ContextDependent } from '../../src/typeclasses/monad';
 import { Option } from '../../src/typeclasses/types/option';
 import { HKTPromise } from '../../src/typeclasses/types/promise';
+import { HKTArray } from '../../src/typeclasses/types/array';
 import { HKTEquality, deepEquality } from './util/hkt.equality';
 
 describe('monad', () => {
@@ -72,6 +73,13 @@ describe('monad', () => {
       s => MonadInstances.promiseMonad.pure(s.length),
       n => MonadInstances.promiseMonad.pure(`${n}_letters`)
     );
+
+    checkMonadLaws(
+      MonadInstances.arrayMonad,
+      1,
+      [ 1 ] as HKTArray<number>,
+      n => MonadInstances.arrayMonad.pure(String.fromCharCode(n)),
+      s => MonadInstances.arrayMonad.pure(s.toUpperCase()));
   });
 
   describe('Reader monad example: dependency injection', () => {
