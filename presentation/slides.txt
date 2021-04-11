@@ -32,7 +32,7 @@ Presentation draft:
 
 * fp-ts as a library defining useful typeclasses and promoting FP in Typescript
 
-* Practical monads: you might be already using them and no typeclasses might be needed
+* Practical monads: you might be already using them and no typeclasses/deeper knowledge of the theory might be needed
   - Generator monad and Maybe monad from gen.js
 
 * Q & A

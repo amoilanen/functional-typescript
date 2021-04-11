@@ -1,5 +1,6 @@
 import { Functor } from './functor';
-import { Option_, Option, Some, none } from './types/option';
+import { Option_, Option, none } from './types/option';
+import { Promise_, HKTPromise } from './types/promise';
 import { HKT } from './hkt';
 
 // Monad is also a Functor as it is possible to implement "map" through "pure" and "flatMap"
@@ -28,7 +29,17 @@ class OptionMonad extends Monad<Option_> {
 
 const optionMonad: Monad<Option_> = new OptionMonad();
 
-//TODO: Promise Monad
+class PromiseMonad extends Monad<Promise_> {
+  pure<A>(a: A): HKTPromise<A> {
+    return Promise.resolve(a) as HKTPromise<A>;
+  }
+  flatMap<A, B>(fa: HKTPromise<A>, f: (v: A) => HKTPromise<B>): HKTPromise<B> {
+    return fa.then(v => f(v)) as HKTPromise<B>;
+  }
+}
+
+const promiseMonad: Monad<Promise_> = new PromiseMonad();
+
 //TODO: Array Monad
 
 // Informally "ContextDependent<Ctx, unknown>" ~ "Ctx => unknown", i.e. "type constructor" for ContextDependent
@@ -60,5 +71,6 @@ function readerMonad<Ctx>(): Monad<ContextDependent_<Ctx>> {
 
 export const MonadInstances = {
   optionMonad,
-  readerMonad
+  promiseMonad,
+  readerMonad,
 };

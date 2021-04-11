@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { HKT } from '../../src/typeclasses/hkt';
 import { Monad, MonadInstances, ContextDependent_, ContextDependent } from '../../src/typeclasses/monad';
 import { Option } from '../../src/typeclasses/types/option';
+import { HKTPromise } from '../../src/typeclasses/types/promise';
 import { HKTEquality, deepEquality } from './util/hkt.equality';
 
 describe('monad', () => {
@@ -54,13 +55,22 @@ describe('monad', () => {
         return x(this.comparisonPoint) == y(this.comparisonPoint);
       }
     };
+    const readerMonad: Monad<StringDependent_> = MonadInstances.readerMonad<string>();
     checkMonadLaws(
-      MonadInstances.readerMonad<string>(),
+      readerMonad,
       2,
-      ((s: string) => 2) as StringDependent<number>,
-      (n: number) => ((s: string) => Math.abs(n)) as StringDependent<number>,
+      readerMonad.pure(2),
+      (n: number) => readerMonad.pure(Math.abs(n)),
       (n: number) => ((s: string) => n > s.length) as StringDependent<boolean>,
       new StringDependentEquality()
+    );
+
+    checkMonadLaws(
+      MonadInstances.promiseMonad,
+      "abc",
+      Promise.resolve("abc") as HKTPromise<string>,
+      s => MonadInstances.promiseMonad.pure(s.length),
+      n => MonadInstances.promiseMonad.pure(`${n}_letters`)
     );
   });
 
