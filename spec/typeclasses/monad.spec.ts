@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import * as deepEql from 'deep-eql';
 
 import { HKT } from '../../src/typeclasses/hkt';
 import { Monad, MonadInstances, ContextDependent_, ContextDependent } from '../../src/typeclasses/monad';
@@ -6,57 +7,74 @@ import { Option } from '../../src/typeclasses/types/option';
 
 describe('monad', () => {
 
-  class Eq {
-    static async expectEql<T>(message: string, x: T, y :T): Promise<void> {
-      if (x instanceof Function) {
-        expect(x.toString(), message).to.eql(y.toString());
-      } else if (x instanceof Promise) {
-        expect(await x, message).to.eql(y);
-      } else {
-        expect(x, message).to.eql(y);
-      }
-    }
-  }
-
   describe('monad laws', () => {
 
-    function checkMonadLaws<M, A, B, C>(m: Monad<M>, a: A, fa: HKT<M, A>, g: (v: A) => HKT<M, B>, h: (v: B) => HKT<M, C>): void {
+    interface HKTEquality<M> {
+      equal<T>(x: HKT<M, T>, y: HKT<M, T>): boolean
+    }
+  
+    class DefaultEquality<M> implements HKTEquality<M> {
+      equal<T>(x: HKT<M, T>, y: HKT<M, T>): boolean {
+        return deepEql(x, y);
+      }
+    }
+
+    function defaultEquality<M>(): HKTEquality<M> {
+      return new DefaultEquality<M>();
+    }
+
+    function checkMonadLaws<M, A, B, C>(m: Monad<M>, a: A, fa: HKT<M, A>, g: (v: A) => HKT<M, B>, h: (v: B) => HKT<M, C>, eq: HKTEquality<M> = defaultEquality<M>()): void {
       it(`${m.constructor.name} should satisfy monad laws`, async () => {
-        await checkAssociativityLaw(m, fa, g, h);
-        await checkIdentityLaw(m, a, fa, g);
+        await checkAssociativityLaw(m, fa, g, h, eq);
+        await checkIdentityLaw(m, a, fa, g, eq);
       });
     }
 
-    async function checkAssociativityLaw<M, A, B, C>(m: Monad<M>, fa: HKT<M, A>, g: (v: A) => HKT<M, B>, h: (v: B) => HKT<M, C>): Promise<void> {
-      await Eq.expectEql(
-        `associativity law for ${m.constructor.name}`,
-        m.flatMap(m.flatMap(fa, g), h),
-        m.flatMap(fa, x => m.flatMap(g(x), h))
-      );
+    async function checkAssociativityLaw<M, A, B, C>(m: Monad<M>, fa: HKT<M, A>, g: (v: A) => HKT<M, B>, h: (v: B) => HKT<M, C>, eq: HKTEquality<M>): Promise<void> {
+      expect(
+        eq.equal(
+          await m.flatMap(m.flatMap(fa, g), h),
+          await m.flatMap(fa, x => m.flatMap(g(x), h))
+        ),
+        `associativity law for ${m.constructor.name}`
+      ).to.be.true;
     }
 
-    async function checkIdentityLaw<M, A, B>(m: Monad<M>, a: A, fa: HKT<M, A>, g: (v: A) =>HKT<M, B>): Promise<void> {
-      await Eq.expectEql(
-        `left identity law for ${m.constructor.name}`,
-        m.flatMap(m.pure(a), g),
-        g(a)
-      );
-      await Eq.expectEql(
-        `right identity law for ${m.constructor.name}`,
-        m.flatMap(fa, m.pure),
-        fa
-      );
+    async function checkIdentityLaw<M, A, B>(m: Monad<M>, a: A, fa: HKT<M, A>, g: (v: A) =>HKT<M, B>, eq: HKTEquality<M>): Promise<void> {
+      expect(
+        eq.equal(
+          await m.flatMap(m.pure(a), g),
+          await g(a)
+        ),
+        `left identity law for ${m.constructor.name}`
+      ).to.be.true;
+      expect(
+        eq.equal(
+          await m.flatMap(fa, m.pure),
+          await fa
+        ),
+        `right identity law for ${m.constructor.name}`
+      ).to.be.true;
     }
 
     checkMonadLaws(MonadInstances.optionMonad, "a", Option.from("a"), s => Option.from(s.length), n => Option.from(`${n}_letters`));
 
+    type StringDependent_ = ContextDependent_<string>
     type StringDependent<T> = ContextDependent<string, T>
+    const stringDependentEquality = new (class StringDependentEquality implements HKTEquality<StringDependent_> {
+      static testString = "abc"
+      equal<T>(x: StringDependent<T>, y: StringDependent<T>): boolean {
+        // Proving function equality is difficult: assuming that two functions are "equal" if their values are equal at some point: not ideal
+        return deepEql(x(StringDependentEquality.testString), y(StringDependentEquality.testString));
+      }
+    })();
     checkMonadLaws(
       MonadInstances.readerMonad<string>(),
       2,
       ((s: string) => 2) as StringDependent<number>,
       (n: number) => ((s: string) => Math.abs(n)) as StringDependent<number>,
-      (n: number) => ((s: string) => n > s.length) as StringDependent<boolean>
+      (n: number) => ((s: string) => n > s.length) as StringDependent<boolean>,
+      stringDependentEquality
     );
   });
 
