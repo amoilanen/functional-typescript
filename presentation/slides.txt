@@ -13,6 +13,20 @@ Presentation draft:
   - Monoid example
   - Why all this theory and abstractions: example of combineAll
 
+* The most useful typeclass: Monad
+  - More extended example of a Monad for Option and how HKT might be defined in Typescript
+  - How to define a HKT and a typeclass requiring HKT definition for an existing type: example of Promise
+  - More advanced monad and the example of its usage: Reader
+
+* fp-ts as both theoretically rigorous and practical library defining useful types and typeclasses and promoting FP in Typescript
+  - Useful types and typeclasses are defined
+  - "chain" instead of "flatMap", "pipe"/"chain" calls typical of fp-ts'
+  - example of Either
+  - example of form validation
+
+* Practical monads: you might be already using them and no typeclasses/deeper knowledge of the theory might be needed
+  - Generator monad and Maybe monad from gen.js
+
 * Not quite a functional language however
   - Again no tail call optimization
   - Coming more from the practical perspective: "how to add typings to JavaScript in a backward-compatible manner"
@@ -24,15 +38,5 @@ Presentation draft:
     - No way to define useful automatic conversions between types and related syntactic sugar (ala Haskell or Scala 3): more boiler-plate
     - Some advanced type constructs, such as union types, but no type lambdas, for example
     - No pattern matching => type tag field in the Option implementation
-
-* The most useful typeclass: Monad
-  - More extended example of a Monad for Option and how HKT might be defined in Typescript
-  - How to define a HKT and a typeclass requiring HKT definition for an existing type: example of Promise
-  - More advanced monad and the example of its usage: Reader
-
-* fp-ts as a library defining useful types and typeclasses and promoting FP in Typescript
-
-* Practical monads: you might be already using them and no typeclasses/deeper knowledge of the theory might be needed
-  - Generator monad and Maybe monad from gen.js
 
 * Q & A
