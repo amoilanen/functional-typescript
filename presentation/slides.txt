@@ -30,7 +30,7 @@ Presentation draft:
   - How to define a HKT and a typeclass requiring HKT definition for an existing type: example of Promise
   - More advanced monad and the example of its usage: Reader
 
-* fp-ts as a library defining useful typeclasses and promoting FP in Typescript
+* fp-ts as a library defining useful types and typeclasses and promoting FP in Typescript
 
 * Practical monads: you might be already using them and no typeclasses/deeper knowledge of the theory might be needed
   - Generator monad and Maybe monad from gen.js
