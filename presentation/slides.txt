@@ -18,23 +18,25 @@ Presentation draft:
   - How to define a HKT and a typeclass requiring HKT definition for an existing type: example of Promise
   - More advanced monad and the example of its usage: Reader
 
+* Practical monads: you might be already using them and no typeclasses/deeper knowledge of the theory might be needed
+  - Generator monad and Maybe monad from gen.js
+
 * fp-ts as both theoretically rigorous and practical library defining useful types and typeclasses and promoting FP in Typescript
   - Useful types and typeclasses are defined
   - "chain" instead of "flatMap", "pipe"/"chain" calls typical of fp-ts'
   - example of Either
   - example of form validation
 
-* Practical monads: you might be already using them and no typeclasses/deeper knowledge of the theory might be needed
-  - Generator monad and Maybe monad from gen.js
-
 * Not quite a functional language however
   - Again no tail call optimization
+  - No immutability support, additional libraries are required
   - Coming more from the practical perspective: "how to add typings to JavaScript in a backward-compatible manner"
   - However, still includes many useful features and can be used in a functional manner
   More boiler-plate code due to:
     - Withot "return" statement function returns "undefined" :(
     - Lots of braces and syntactic noise (C legacy - imperative language)
-    - Missing higher kinded types: i.e. "Promise" is not considered to be a separate type ("type constructor") in addition to "Promise<T>":
+    - Missing higher kinded types: i.e. "Promise" is not considered to be a separate type ("type constructor") in addition to "Promise<T>": need
+      to cast types sometimes
     - No way to define useful automatic conversions between types and related syntactic sugar (ala Haskell or Scala 3): more boiler-plate
     - Some advanced type constructs, such as union types, but no type lambdas, for example
     - No pattern matching => type tag field in the Option implementation
