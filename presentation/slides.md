@@ -41,7 +41,7 @@
 more popular.</sub>
 
 * <= 1990s - functional programming is mostly about functions
-* 2010s - functional programming is mostly about functions, types, immutability, advances in the type theory
+* 2010s - functional programming is mostly about functions, types, immutability
   - Larger more complex projects require static typing (for example, SPAs)
   - Advances in the type theory and more languages with more advanced type systems
   - Combining OOP and functional programming, OOP != "shared mutable state" (Scala)
@@ -69,9 +69,9 @@ more popular.</sub>
 
 
 ## Higher-Kinded Types
-  ### Required to define more advanced type classes
+  ### Required to define advanced type classes
 
-* <i>What if we want to define a *single* typeclass instance which is parameterizable by a type parameter which itself might accept a type parameter,
+<i>What if we want to define a *single* typeclass instance which is parameterizable by a type parameter which itself might accept a type parameter,
 but we do not want for this typeclass instance to care for that particular last type parameter before the actual methods of the typeclass are called?</i>
 * Typescript does not support them yet ["Allow classes to be parametric in other parametric classes"](https://github.com/microsoft/TypeScript/issues/1213)
 * Example: `Promise<T>` is a generic type, but `Promise` (or `Promise<~>` as per the proposal) is not a valid type in Typescript, in Scala it would
@@ -89,7 +89,7 @@ be called a "type constructor", `Promise` in this case is the missing higher-kin
   ### Most important and frequently used typeclass
 
 * A [type](https://github.com/antivanov/functional-typescript/blob/4fb0de20998ad49d966b77f2e5bff1a825a03e45/src/typeclasses/monad.ts#L8-L14) which wraps a value and has operations `pure`, `flatMap` which satisfy certain [laws](https://github.com/antivanov/functional-typescript/blob/4fb0de20998ad49d966b77f2e5bff1a825a03e45/spec/typeclasses/monad.spec.ts#L14-46)
-* Given `pure` and `flatMap` it is possible to implement `map` also (which means that every "Monad" is also a "Functor")
+* Given `pure` and `flatMap` it is possible to also implement `map` (which means that every "Monad" is also a "Functor")
 
 
 ## Monad
@@ -120,9 +120,36 @@ be called a "type constructor", `Promise` in this case is the missing higher-kin
   * Both theoretically rigorous and practical library defining useful types and typeclasses
   - Useful types and typeclasses are defined
   - `chain` instead of `flatMap`; `pipe`/`chain` calls is a very typical pattern in `fp-ts`
-  - example of [`Either`]()
-  - example of [form validation]
+  - example of [`Either`](https://github.com/antivanov/functional-typescript/blob/main/src/fp-ts/either.example.ts), and chaining Monad calls
+  - example of [form validation](https://github.com/antivanov/functional-typescript/blob/main/src/fp-ts/form.validation.example.ts)
 
-## External 3.2
 
-Content 3.2
+
+## Typescript not quite a functional language
+  * Not the main goal of Typescript
+  * Again no tail call optimization, although some [pleas](https://github.com/microsoft/TypeScript/issues/32743) to add it
+  * No immutability, additional libraries are required, such as [Immutable.js](https://immutable-js.github.io/immutable-js/)
+  * Coming more from the practical perspective: "how to add types to JavaScript in a backward-compatible manner"
+  * However, still includes many useful features and can be used in a functional manner
+  * Expands on the JavaScript's functional legacy and updates it
+
+
+## Typescript: not quite a functional language
+  ### Boiler-plate code when doing functional programming
+  * Withot "return" statement function returns "undefined", more ephasis on being imperative language :(
+  * Lots of braces and syntactic noise (C legacy from the old compiler days)
+  * Missing higher-kinded types: i.e. "Promise" is not considered to be a separate type ("type constructor") in addition to "Promise<T>": need
+    to cast types sometimes
+
+
+## Typescript: not quite a functional language
+  ### Boiler-plate code when doing functional programming
+  * No way to define useful automatic conversions between types and related syntactic sugar: more boiler-plate
+  * No way to define implicit values (in Scala, finally done right in Scala 3)
+  * Some advanced type constructs, such as union types, but no type lambdas, for example
+  * No pattern matching => type tag field in the Option implementation
+
+
+
+## Q & A
+  ### Thank you
