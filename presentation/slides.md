@@ -125,13 +125,13 @@ be called a "type constructor", `Promise` in this case is the missing higher-kin
 
 
 
-## Typescript not quite a functional language
+## Typescript: not quite a functional language
   * Not the main goal of Typescript
   * Again no tail call optimization, although some [pleas](https://github.com/microsoft/TypeScript/issues/32743) to add it
   * No immutability, additional libraries are required, such as [Immutable.js](https://immutable-js.github.io/immutable-js/)
   * Coming more from the practical perspective: "how to add types to JavaScript in a backward-compatible manner"
   * However, still includes many useful features and can be used in a functional manner
-  * Expands on the JavaScript's functional legacy and updates it
+  * But expands on the JavaScript's functional legacy and updates it
 
 
 ## Typescript: not quite a functional language
