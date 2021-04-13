@@ -70,12 +70,12 @@ export interface ContextDependent<Ctx, R> extends HKT<ContextDependent_<Ctx>, R>
  */
 function readerMonad<Ctx>(): Monad<ContextDependent_<Ctx>> {
   return new class ReaderMonad<Ctx> extends Monad<ContextDependent_<Ctx>> {
-    pure<A>(a: A): HKT<ContextDependent_<Ctx>, A> {
+    pure<A>(a: A): ContextDependent<Ctx, A> {
       return ((ctx: Ctx) => a) as ContextDependent<Ctx, A>;
     }
-    flatMap<A, B>(fa: HKT<ContextDependent_<Ctx>, A>, f: (v: A) => HKT<ContextDependent_<Ctx>, B>): HKT<ContextDependent_<Ctx>, B> {
+    flatMap<A, B>(fa: ContextDependent<Ctx, A>, f: (v: A) => ContextDependent<Ctx, B>): ContextDependent<Ctx, B> {
       return ((ctx: Ctx) => {
-        return (f((fa as ContextDependent<Ctx, A>)(ctx)) as ContextDependent<Ctx, B>)(ctx);
+        return f(fa(ctx))(ctx);
       }) as ContextDependent<Ctx, B>;
     }
   };
