@@ -117,11 +117,11 @@ be called a "type constructor", `Promise` in this case is the missing higher-kin
 
 ## [fp-ts](https://github.com/gcanti/fp-ts): Functional Programming Library for Typescript
   * Inspired (like the code in this presentation) by Scala and [Cats](https://typelevel.org/cats/)
-  * Both theoretically rigorous and practical library defining useful types and typeclasses
-  - Useful types and typeclasses are defined
-  - `chain` instead of `flatMap`; `pipe`/`chain` calls is a very typical pattern in `fp-ts`
-  - example of [`Either`](https://github.com/antivanov/functional-typescript/blob/main/src/fp-ts/either.example.ts), and chaining Monad calls
-  - example of [form validation](https://github.com/antivanov/functional-typescript/blob/main/src/fp-ts/form.validation.example.ts)
+  * Both theoretically rigorous and practical library
+  * Useful types and typeclasses are defined
+  * `chain` instead of `flatMap`; `pipe`/`chain` calls is a very typical pattern in `fp-ts`
+  * example of [`Either`](https://github.com/antivanov/functional-typescript/blob/main/src/fp-ts/either.example.ts), and chaining Monad calls
+  * example of [form validation](https://github.com/antivanov/functional-typescript/blob/main/src/fp-ts/form.validation.example.ts)
 
 
 
