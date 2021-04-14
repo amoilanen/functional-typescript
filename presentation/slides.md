@@ -87,8 +87,9 @@ be called a "type constructor", `Promise` in this case is the missing higher-kin
 
 
 ## Monad
-  ### Most important and frequently used typeclass
+  ### Most important and frequently used abstraction
 
+* Can be implemented as a typeclass or might be "implicit"
 * A [type](https://github.com/antivanov/functional-typescript/blob/4fb0de20998ad49d966b77f2e5bff1a825a03e45/src/typeclasses/monad.ts#L8-L14) which wraps a value and has operations `pure`, `flatMap` which satisfy certain [laws](https://github.com/antivanov/functional-typescript/blob/4fb0de20998ad49d966b77f2e5bff1a825a03e45/spec/typeclasses/monad.spec.ts#L14-46)
 * Given `pure` and `flatMap` it is possible to also implement `map` (which means that every "Monad" is also a "Functor")
 
