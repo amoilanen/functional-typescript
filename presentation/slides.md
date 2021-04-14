@@ -1,5 +1,5 @@
 # Functional Typescript
-  14.04.2021
+  15.04.2021
 
 
 
@@ -58,6 +58,7 @@ more popular.</sub>
 * Enables building more functional-like utilities and libraries
 
 
+
 ## Typeclasses
   ### Monoid typeclass as an example
 
@@ -102,7 +103,7 @@ be called a "type constructor", `Promise` in this case is the missing higher-kin
 
 
 ## Monad
-  * More advanced Monad: [Reader](https://github.com/antivanov/functional-typescript/blob/4fb0de20998ad49d966b77f2e5bff1a825a03e45/src/typeclasses/monad.ts#L58-L82), practical [example](https://github.com/antivanov/functional-typescript/blob/4fb0de20998ad49d966b77f2e5bff1a825a03e45/spec/typeclasses/monad.spec.ts#L85-L131) of injecting a database connection and chaining database operations
+  * More advanced Monad: [Reader](https://github.com/antivanov/functional-typescript/blob/4e2618d1c2a8e59a2b76166ca769f58d1d2de0bc/src/typeclasses/monad.ts#L58-L82), practical [example](https://github.com/antivanov/functional-typescript/blob/4fb0de20998ad49d966b77f2e5bff1a825a03e45/spec/typeclasses/monad.spec.ts#L85-L131) of injecting a database connection and chaining database operations
 
 
 
