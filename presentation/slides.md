@@ -120,7 +120,7 @@ be called a "type constructor", `Promise` in this case is the missing higher-kin
   * Inspired (like the code in this presentation) by Scala and [Cats](https://typelevel.org/cats/)
   * Both theoretically rigorous and practical library
   * Useful types and typeclasses are defined
-  * `chain` instead of `flatMap`; `pipe`/`chain` calls is a very typical pattern in `fp-ts`
+  * `chain` instead of `flatMap`; [`pipe`](https://github.com/gcanti/fp-ts/blob/cf7eae308ef41b6cd95dc03b7576a1132fda6e5f/src/function.ts#L444)/[`chain`](https://github.com/gcanti/fp-ts/blob/cf7eae308ef41b6cd95dc03b7576a1132fda6e5f/src/Either.ts#L597) calls is a very typical pattern in `fp-ts`
   * example of [`Either`](https://github.com/antivanov/functional-typescript/blob/main/src/fp-ts/either.example.ts), and chaining Monad calls
   * example of [form validation](https://github.com/antivanov/functional-typescript/blob/main/src/fp-ts/form.validation.example.ts)
 
@@ -137,7 +137,7 @@ be called a "type constructor", `Promise` in this case is the missing higher-kin
 
 ## Typescript: not quite a functional language
   ### Boiler-plate code when doing functional programming
-  * Withot "return" statement function returns "undefined", more ephasis on being imperative language :(
+  * Withot "return" statement function returns "undefined", more emphasis on being an imperative language :(
   * Lots of braces and syntactic noise (C legacy from the old compiler days)
   * Missing higher-kinded types: i.e. "Promise" is not considered to be a separate type ("type constructor") in addition to "Promise<T>": need
     to cast types sometimes
@@ -146,7 +146,7 @@ be called a "type constructor", `Promise` in this case is the missing higher-kin
 ## Typescript: not quite a functional language
   ### Boiler-plate code when doing functional programming
   * No way to define useful automatic conversions between types and related syntactic sugar: more boiler-plate
-  * No way to define implicit values (in Scala, finally done right in Scala 3)
+  * No way to define implicit values (like in Scala, finally done right in Scala 3)
   * Some advanced type constructs, such as union types, but no type lambdas, for example
   * No pattern matching => type tag field in the Option implementation
 
